@@ -1,0 +1,43 @@
+# 小草开源系统
+
+## 系统介绍
+ 小草开源系统主要解决商城系统中共用的功能模块,主要理念是简单、高效、易使用。
+
+## 系统源码架构
++ xcky-cloud
+  + xcky-common
+    + src/main
+      + java
+      + resources
+    - pom.xml
+  + xcky-encry
+    + src/main
+      + java
+      + resources
+    - pom.xml
+  + xcky-job
+    + src/main
+      + java
+      + resources
+    - pom.xml
+  + xcky-notify
+    + src/main
+      + java
+      + resources
+    - pom.xml
+  + xcky-order
+    + src/main
+      + java
+      + resources
+    - pom.xml
+  + xcky-user
+    + src/main
+      + java
+      + resources
+    - pom.xml
+  - pom.xml
+
+## 未来展望
+
+
+
