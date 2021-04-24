@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.SysRoleUserMapper">
+    <insert id="insertSysRoleUser" parameterType="com.xcky.model.entity.SysRoleUser">
+        INSERT INTO
+          sys_role_user
+        (
+          <if test="null != startTime">
+              start_time,
+          </if>
+          <if test="null != endTime">
+              end_time,
+          </if>
+          role_id,
+          user_id,
+          operator,
+          operate_time,
+          operate_ip
+        )
+        VALUES
+        (
+          <if test="null != startTime">
+            #{startTime},
+          </if>
+          <if test="null != endTime">
+            #{endTime},
+          </if>
+          #{roleId},
+          #{userId},
+          #{operator},
+          #{operateTime},
+          #{operateIp}
+        )
+    </insert>
+
+    <update id="updateSysRoleUser" parameterType="com.xcky.model.entity.SysRoleUser">
+        UPDATE
+          sys_role_user
+        SET
+          <if test="null != startTime">
+              start_time = #{startTime},
+          </if>
+          <if test="null != endTime">
+              end_time = #{endTime},
+          </if>
+          role_id = #{roleId},
+          user_id = #{userId},
+          operator = #{operator},
+          operate_time = #{operateTime},
+          operate_ip = #{operateIp}
+        WHERE
+          id = #{id}
+    </update>
+
+    <select id="selectSysRoleUserByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.SysRoleUser">
+        SELECT
+          id,
+          role_id roleId,
+          user_id userId,
+          operator,
+          operate_time operateTime,
+          operate_ip operateIp,
+          start_time startTime,
+          end_time endTime
+        FROM
+          sys_role_user
+        WHERE
+          1=1
+          <if test="null != id">
+              AND id = #{id}
+          </if>
+          <if test="null != nowTime">
+              AND start_time &lt;= #{nowTime}
+          </if>
+          <if test="null != nowTime">
+              AND end_time &gt;= #{nowTime}
+          </if>
+    </select>
+</mapper>

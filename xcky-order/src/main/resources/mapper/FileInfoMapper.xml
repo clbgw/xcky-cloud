@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.FileInfoMapper">
+    <select id="selectFileInfoPageByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.FileInfo">
+		SELECT
+			id,
+			openid,
+			unionid,
+			simple_desc simpleDesc,
+			is_public isPublic,
+			is_share isShare,
+			record_date recordDate,
+			tags,
+			longitude,
+			latitude,
+			address,
+			file_url fileUrl,
+			file_status fileStatus
+		FROM
+			file_info
+	</select>
+</mapper>

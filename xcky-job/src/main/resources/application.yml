@@ -1,0 +1,159 @@
+sub:
+  #签到统计提醒
+  checkinSub:
+    appid: wx40898860f56376d0
+    touser: openid #动态填写用户OPENID
+    template_id: rV1c1x1x57ZwI0xA6qAQ5cr0QEK_sh2O4c0VzfGMzAA
+    page: /pages/index/index
+    miniprogram_state: formal
+    lang: zh_CN
+    data:
+      thing1: 连续签到活动
+      number2: num #动态填写用户签到天数
+      thing3: 连续签到14天无条件获得发布简历权
+      time4: nowDate #动态填写当前日期
+  checkinOk:
+    appid: wx40898860f56376d0
+    touser: openid #动态填写用户OPENID
+    template_id: jtrpkhC9JAzQT1duAI-TmzvSxmHlmjk2dSp0p3Rov8c
+    page: /pages/index/index
+    miniprogram_state: formal
+    lang: zh_CN
+    data:
+      thing3: 特此通知您当天已经签到成功
+      name1: nickName #动态填写当前签到用户
+      time2: nowTime #动态填写当前时间
+
+
+server:
+  port: 8099
+spring:
+  application:
+    name: xcky-job
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.110.33.117:8848
+    sentinel:
+      transport:
+        dashboard: 169.254.12.135:8080
+        port: 9999
+      eager: true
+  jackson:
+      default-property-inclusion: NON_NULL
+  redis:
+    host: 127.0.0.1
+    password: clb789123fj.
+    port: 8000
+    jedis:
+      pool:
+        max-active: 4
+        min-idle: 0
+        max-wait: 1000ms
+        max-idle: 4
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.110.33.117:9004/shop?useUnicode=true&characterEncoding=UTF8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 20
+      max-lifetime: 60000
+      connection-timeout: 5000
+
+mybatis-plus:
+  check-config-location: true
+  typeAliasesPackage: com.xcky.model.entity
+  config-location: classpath:mybatis-settings.xml
+  mapper-locations: classpath*:mapper/*.xml
+  global-config:
+    id-type: 0
+
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: false
+  support-methods-arguments: true
+
+wx:
+  # 头条小程序账号
+  miniTtAccount:
+    ttfa428cff6579f821:
+      secret: 9885bee5795708f5dfd71eb56ddaa59b0011f820
+      remark: 陈隆彪简历头条小程序
+      status: Y
+  # 微信小程序账号
+  miniAccount:
+    # 陈隆彪简历小程序
+    wx40898860f56376d0:
+      secret: 4dae1edf6beda0b5f3e2483834c7ce22
+      remark: 陈隆彪简历小程序
+      status: Y
+      mail: 2717480956@qq.com
+      loginPwd: clb6962091290fj.
+      orginId: gh_62868da5917d
+    # 陈隆彪的简历小程序
+    wx05d64025f527259a:
+      secret: 67d56d09f42d0b36106a81b5d9810b28
+      remark: 陈隆彪的简历小程序
+      status: Y
+      mail: 3601765926@qq.com
+      loginPwd: clb6962091290fj.
+      orginId: gh_77808d01b929
+    # 爱之大小程序
+    wxb14e79add13052b4:
+      secret: c1a63db633ef42abbd42d140eed7a1b8
+      remark: 爱之大小程序
+      status: Y
+      mail: 531253410@qq.com
+      loginPwd: clb6962091290
+      orginId: gh_702bfa94abf3
+    # 小草开源小程序
+    wxfcf833cbcc583d86:
+      secret: 9da2b7c89df733bde9ee3d1e90f698fa
+      remark: 小草开源小程序
+      status: Y
+      mail: 18065856983@163.com
+      loginPwd: clb6962091290fj.
+      orginId: gh_9a41bb37f4f6
+    # 小草开源新玩法小游戏
+    wx29df37a0a47101bb:
+      secret: de923c90b673f73592abd1a173e80126
+      remark: 小草开源新玩法
+      status: Y
+      mail: xyx@clbgw.vip
+      loginPwd: xyx6962091290FJ.
+      orginId: gh_6d372cdfaeb2
+  # 微信商户号
+  mchAccount:
+    # 爱之大商户号
+    1604367926:
+      remark: 爱之大商户号
+      status: Y
+      apiSecret: clb6962091290FJclb6962091290FJcl
+      api3Secret: clb6962091290FJclb6962091290FJcl
+      notifyUrl: https://clbgw.vip/wx/pay
+      refundCertPath: /opt/data/wxPayCert/apiclient_cert.p12
+      #refundCertPath: C:\\TEMP\\apiclient_cert.p12
+  # 微信订阅号
+  subAccount:
+    # 陈隆彪官网订阅号
+    wxb15314b503a82c3b:
+      secret: 54203d9388feb5a6313db3df3348dcc7
+      remark: 陈隆彪官网订阅号
+      status: Y
+      mail: 1218379448@qq.com
+      loginPwd: clb6962091290fj.
+      orginId: gh_554f82153dd1
+  # 微信服务号
+  serAccount:
+    # 爱之大服务号
+    wx7b7a2cbc07347527:
+      secret: 3650da3ae8cc27504f4734b7b6ccae58
+      remark: 爱之大服务号
+      status: Y
+      mail: 641025672@qq.com
+      loginPwd: clb6962091290
+      orginId: gh_c45eca7fd0cb

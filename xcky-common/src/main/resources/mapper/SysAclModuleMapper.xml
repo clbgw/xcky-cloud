@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.SysAclModuleMapper">
+    <insert id="insertSysAclModule" parameterType="com.xcky.model.entity.SysAclModule">
+        INSERT INTO
+            sys_acl_module
+        (
+            name,
+            parent_id,
+            level,
+            seq,
+            status,
+            remark,
+            operator,
+            operate_time,
+            operate_ip
+        )
+        VALUES
+        (
+            #{name},
+            #{parentId},
+            #{level},
+            #{seq},
+            #{status},
+            #{remark},
+            #{operator},
+            #{operateTime},
+            #{operateIp}
+        )
+    </insert>
+
+    <update id="updateSysAclModule" parameterType="com.xcky.model.entity.SysAclModule">
+        UPDATE
+            sys_acl_module
+        SET
+            name = #{name},
+            parent_id = #{parentId},
+            level = #{level},
+            seq = #{seq},
+            status = #{status},
+            remark = #{remark},
+            operator = #{operator},
+            operate_time =#{operateTime},
+            operate_ip = #{operateIp}
+        WHERE
+            id = #{id}
+    </update>
+
+    <select id="selectSysAclModuleByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.SysAclModule">
+        SELECT
+            id,
+            name,
+            parent_id parentId,
+            level,
+            seq,
+            status,
+            remark,
+            operator,
+            operate_time operateTime,
+            operate_ip operateIp
+        FROM
+            sys_acl_module
+        WHERE
+            1=1
+    </select>
+</mapper>

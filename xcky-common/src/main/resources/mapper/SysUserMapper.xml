@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.SysUserMapper">
+    <select id="selectRoleIdsByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT DISTINCT
+            r.id
+        FROM
+            sys_role_user ru,
+            sys_role r
+        WHERE
+            r.STATUS = 1
+            AND ru.user_id = #{userId}
+            AND r.id = ru.role_id
+    </select>
+
+    <select id="selectSysUserByMap" parameterType="java.util.Map" resultType="com.xcky.model.vo.SysUserVo">
+        SELECT
+            id,
+            username,
+            telephone,
+            mail,
+            password,
+            dept_id deptId,
+            status,
+            remark,
+            operator,
+            operate_time operateTime,
+            operate_ip operateIp,
+            salt
+        FROM
+          sys_user
+        WHERE
+          1=1
+          <if test="null != id and id != ''">
+              AND id = #{id}
+          </if>
+          <if test="null != username and username != ''">
+              AND username = #{username}
+          </if>
+          <if test="null != email and email != ''">
+              AND mail = #{email}
+          </if>
+          <if test="null != phone and phone != ''">
+              AND telephone = #{phone}
+          </if>
+    </select>
+
+    <update id="updateUserPwd">
+        UPDATE
+          sys_user
+        SET
+          password = #{password},
+          operate_time = sysdate(),
+          salt = #{salt},
+          operator = #{username}
+        WHERE
+          username = #{username}
+    </update>
+    
+    <select id="selectCountUserName" resultType="java.lang.Integer">
+      SELECT
+        COUNT(1)
+      FROM
+        sys_user
+      WHERE
+        ${type} = #{username}
+      LIMIT 1
+    </select>
+
+    <insert id="insertSysUser" parameterType="com.xcky.model.entity.SysUser">
+        INSERT INTO
+          sys_user
+        (
+            <if test="null != username">
+            username,
+            </if>
+            <if test="null != telephone">
+            telephone,
+            </if>
+            <if test="null != mail">
+            mail,
+            </if>
+            password,
+            <if test="null != deptId">
+            dept_id,
+            </if>
+            status
+        )
+        VALUES
+        (
+            <if test="null != username">
+            #{username},
+            </if>
+            <if test="null != telephone">
+            #{telephone},
+            </if>
+            <if test="null != mail">
+            #{mail},
+            </if>
+            #{password},
+            <if test="null != deptId">
+            #{deptId},
+            </if>
+            #{status}
+        )
+    </insert>
+</mapper>

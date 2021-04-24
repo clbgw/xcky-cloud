@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.ThirtTokenInfoMapper">
+    <insert id="insertThirtTokenInfo" parameterType="com.xcky.model.entity.ThirtTokenInfo">
+        INSERT INTO
+            thirt_token_info_c
+        (
+            <if test="null != secret and secret != ''">
+                secret,
+            </if>
+            <if test="null != mail and mail != ''">
+                mail,
+            </if>
+            <if test="null != loginPwd and loginPwd != ''">
+                login_pwd,
+            </if>
+            <if test="null != orginId and orginId != ''">
+                orgin_id,
+            </if>
+            <if test="null != token and token != ''">
+                token,
+            </if>
+            <if test="null != apiSecret and apiSecret != ''">
+                api_secret,
+            </if>
+            <if test="null != api3Secret and api3Secret != ''">
+                api3_secret,
+            </if>
+            <if test="null != notifyUrl and notifyUrl != ''">
+                notify_url,
+            </if>
+            <if test="null != refundCertPath and refundCertPath != ''">
+                refund_cert_path,
+            </if>
+            type,
+            appid,
+            remark,
+            status,
+            update_time,
+            create_time
+        )
+        VALUES
+        (
+            <if test="null != secret and secret != ''">
+                #{secret},
+            </if>
+            <if test="null != mail and mail != ''">
+                #{mail},
+            </if>
+            <if test="null != loginPwd and loginPwd != ''">
+                #{loginPwd},
+            </if>
+            <if test="null != orginId and orginId != ''">
+                #{orginId},
+            </if>
+            <if test="null != token and token != ''">
+             #{token},
+            </if>
+            <if test="null != apiSecret and apiSecret != ''">
+                #{apiSecret},
+            </if>
+            <if test="null != api3Secret and api3Secret != ''">
+                #{api3Secret},
+            </if>
+            <if test="null != notifyUrl and notifyUrl != ''">
+                #{notifyUrl},
+            </if>
+            <if test="null != refundCertPath and refundCertPath != ''">
+                #{refundCertPath},
+            </if>
+            #{type},
+            #{appid},
+            #{remark},
+            #{status},
+            #{updateTime},
+            #{createTime}
+        )
+    </insert>
+
+    <update id="updateThirtTokenInfo" parameterType="com.xcky.model.entity.ThirtTokenInfo">
+        UPDATE
+            thirt_token_info_c
+        SET
+            <if test="null != secret and secret != ''">
+                secret = #{secret},
+            </if>
+            <if test="null != remark and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="null != type and type != ''">
+                type = #{type},
+            </if>
+            <if test="null != status and status != ''">
+                status = #{status},
+            </if>
+            <if test="null != token and token != ''">
+                token = #{token},
+            </if>
+            <if test="null != mail and mail != ''">
+                mail = #{mail},
+            </if>
+            <if test="null != loginPwd and loginPwd != ''">
+                login_pwd = #{loginPwd},
+            </if>
+            <if test="null != orginId and orginId != ''">
+                orgin_id = #{orginId},
+            </if>
+            <if test="null != apiSecret and apiSecret != ''">
+                api_secret = #{apiSecret},
+            </if>
+            <if test="null != api3Secret and api3Secret != ''">
+                api3_secret = #{api3Secret},
+            </if>
+            <if test="null != notifyUrl and notifyUrl != ''">
+                notify_url = #{notifyUrl},
+            </if>
+            <if test="null != refundCertPath and refundCertPath != ''">
+                refund_cert_path = #{refundCertPath},
+            </if>
+            update_time = #{updateTime}
+        WHERE
+            appid = #{appid}
+    </update>
+    
+    <select id="selectThirtTokenInfosByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.ThirtTokenInfo">
+        SELECT
+            id,
+            type,
+            appid,
+            secret,
+            remark,
+            mail,
+            login_pwd loginPwd,
+            orgin_id orginId,
+            token,
+            status,
+            api_secret apiSecret,
+            api3_secret api3Secret,
+            notify_url notifyUrl,
+            refund_cert_path refundCertPath,
+            update_time updateTime,
+            create_time createTime
+        FROM
+            thirt_token_info_c
+        WHERE
+            1=1
+            <if test="null != type and type != ''">
+                AND type = #{type}
+            </if>
+            <if test="null != appid and appid != ''">
+                AND appid = #{appid}
+            </if>
+            <if test="null != status and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="null != remark and remark != ''">
+                AND remark LIKE CONCAT('%',#{remark},'%')
+            </if>
+            <if test="null != id">
+                AND id = #{id}
+            </if>
+    </select>
+    
+</mapper>

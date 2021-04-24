@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.OrderInfoMapper">
+    <insert id="insertOrderInfo" parameterType="com.xcky.model.entity.OrderInfo">
+		INSERT INTO
+		    order_info
+		(
+            order_type,
+            order_no,
+            user_id,
+		    <if test="null != openid and openid != ''">
+            openid,
+            </if>
+            order_status,
+            create_time,
+            update_time,
+            goods_buy_num,
+            order_price_amount,
+            order_coupon_price_amount,
+            order_pay_amount
+            <if test="null != shippingAddress and shippingAddress != ''">
+                ,shipping_address
+            </if>
+            <if test="null != appid and appid != ''">
+                ,appid
+            </if>
+            <if test="null != mchId and mchId != ''">
+                ,mch_id
+            </if>
+		)
+		VALUES
+		(
+            #{orderType},
+            #{orderNo},
+            #{userId},
+            <if test="null != openid and openid != ''">
+                #{openid},
+            </if>
+            #{orderStatus},
+            #{createTime},
+            #{createTime},
+            #{goodsBuyNum},
+            #{orderPriceAmount},
+            #{orderCouponPriceAmount},
+            #{orderPayAmount}
+            <if test="null != shippingAddress and shippingAddress != ''">
+                ,#{shippingAddress}
+            </if>
+            <if test="null != appid and appid != ''">
+                ,#{appid}
+            </if>
+            <if test="null != mchId and mchId != ''">
+                ,#{mchId}
+            </if>
+		)
+	</insert>
+
+    <select id="selectOrderInfoByMap" parameterType="java.util.Map" resultType="com.xcky.model.vo.OrderInfoVo">
+        SELECT
+            order_no orderNo,
+            pay_order_no payOrderNo,
+            user_id userId,
+            appid,
+            mch_id mchId,
+            openid,
+            order_status orderStatus,
+            order_type orderType,
+            goods_buy_num goodsBuyNum,
+            order_price_amount orderPriceAmount,
+            order_coupon_price_amount orderCouponPriceAmount,
+            order_pay_amount orderPayAmount,
+            shipping_address shippingAddress,
+            create_time createTime,
+            update_time updateTime
+        FROM
+            order_info
+        WHERE
+            1=1
+            <if test="null != appid and appid != ''">
+                AND appid = #{appid}
+            </if>
+            <if test="null != userId">
+                AND user_id = #{userId}
+            </if>
+            <if test="null != orderNo and orderNo != ''">
+                AND order_no = #{orderNo}
+            </if>
+            <if test="null != orderStatus and orderStatus != ''">
+                AND order_status = #{orderStatus}
+            </if>
+            <if test="null != orderType and orderType != ''">
+                AND order_type = #{orderType}
+            </if>
+            <if test="null != openid and openid != ''">
+                AND openid = #{openid}
+            </if>
+        ORDER BY
+            create_time DESC
+    </select>
+
+    <select id="selectSumGoodsNum" resultType="java.math.BigDecimal">
+        SELECT
+            sum(oi.buy_num)
+        FROM
+            order_info o,
+            order_detail_info oi
+        WHERE
+            oi.order_no = o.order_no
+            and o.order_status not in ('2','3','66')
+            and o.user_id = #{userId}
+            and oi.goods_id = #{goodsId}
+    </select>
+
+    <update id="updateOrderStatus" parameterType="com.xcky.model.entity.OrderInfo">
+        UPDATE
+            order_info
+        SET
+            <if test="null != orderStatus and orderStatus != ''">
+                order_status = #{orderStatus},
+            </if>
+            <if test="null != payOrderNo and payOrderNo != ''">
+                pay_order_no = #{payOrderNo},
+            </if>
+            update_time = #{updateTime}
+        WHERE
+            order_no = #{orderNo}
+    </update>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.CommonTimeAreaMapper">
+    <select id="selectTimeAreaByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.CommonTimeArea">
+      SELECT
+        id,
+        `type` type,
+        type_id typeId,
+        begin_time beginTime,
+        end_time endTime,
+        valid,
+        status
+      FROM
+        common_time_area
+      WHERE
+        status = '1'
+        <if test="null != type and type != ''">
+            AND type = #{type}
+        </if>
+        <if test="null != typeId and typeId != ''">
+            AND type_id = #{typeId}
+        </if>
+        <if test="null != valid and valid != ''">
+            AND valid = #{valid}
+        </if>
+      ORDER BY
+        valid ASC,
+        begin_time ASC
+    </select>
+    
+    <insert id="insertCommonTimeArea" parameterType="com.xcky.model.entity.CommonTimeArea">
+      INSERT INTO
+        common_time_area
+      (
+        type,
+        type_id,
+        begin_time,
+        end_time,
+        valid,
+        status
+      )
+      VALUES
+      (
+        #{type},
+        #{typeId}
+        #{beginTime}
+        #{endTime}
+        #{valid}
+        #{status}
+      )
+    </insert>
+
+    <update id="updateCommonTimeArea" parameterType="com.xcky.model.entity.CommonTimeArea">
+      UPDATE
+        common_time_area
+      SET
+        <if test="null != typeId and typeId != ''">
+            type_id = #{typeId},
+        </if>
+        <if test="null != beginTime and beginTime != ''">
+            begin_time = #{beginTime},
+        </if>
+        <if test="null != endTime and endTime != ''">
+            end_time = #{endTime},
+        </if>
+        <if test="null != valid and valid != ''">
+            valid = #{valid},
+        </if>
+        <if test="null != status and status != ''">
+            status = #{status},
+        </if>
+        type = #{type}
+      WHERE
+        id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.CouponInfoMapper">
+    <select id="selectUserCouponByMap" parameterType="java.util.Map" resultType="com.xcky.model.vo.CouponInfoVo">
+        SELECT
+            ci.id id,
+            ci.coupon_title couponTitle,
+            ci.coupon_use_rule couponUseRule,
+            ci.coupon_desc couponDesc,
+            ci.coupon_type couponType,
+            ci.coupon_price_type couponPriceType,
+            ci.dis_price disPrice,
+            ci.begin_date beginDate,
+            ci.end_date endDate,
+            ci.coupon_status couponStatus,
+
+            ucr.id userCouponId,
+            ucr.user_id userId,
+            ucr.use_status useStatus,
+            ucr.coupon_no couponNo
+        FROM
+            coupon_info ci,
+            user_coupon_rela ucr
+        WHERE
+            1=1
+            <if test="null != useStatus and useStatus != ''">
+                AND ucr.use_status = #{useStatus}
+            </if>
+            <if test="null != userId and userId != ''">
+                AND ucr.user_id = #{userId}
+            </if>
+            <if test="null != couponStatus and couponStatus != ''">
+                AND ci.coupon_status = #{couponStatus}
+            </if>
+    </select>
+
+    <select id="selectCouponByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.CouponInfo">
+        SELECT
+            ci.id id,
+            ci.coupon_title couponTitle,
+            ci.coupon_use_rule couponUseRule,
+            ci.coupon_desc couponDesc,
+            ci.coupon_type couponType,
+            ci.coupon_price_type couponPriceType,
+            ci.dis_price disPrice,
+            ci.begin_date beginDate,
+            ci.end_date endDate,
+            ci.coupon_status couponStatus,
+
+            ci.init_num initNum,
+            ci.num num,
+            ci.used used
+        FROM
+            coupon_info ci
+        WHERE
+            1=1
+            <if test="null != couponId and couponId != ''">
+                AND ci.id = #{couponId}
+            </if>
+    </select>
+    
+    <update id="updateCouponNum">
+        UPDATE
+            coupon_info
+        SET
+            num = num - #{deductionNum}
+        WHERE
+            id = #{couponId}
+            AND num &gt;= #{deductionNum}
+            AND begin_date &lt;= sysdate()
+            AND end_date &gt;= sysdate()
+    </update>
+</mapper>

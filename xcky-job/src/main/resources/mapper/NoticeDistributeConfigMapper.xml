@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.NoticeDistributeConfigMapper">
+    <insert id="insertNoticeDistributeConfig" parameterType="com.xcky.model.entity.NoticeDistributeConfig">
+        INSERT INTO
+            notice_distribute_config
+        (
+            notice_id,
+            <if test="null != noticeRoleId">
+            notice_role_id,
+            </if>
+            <if test="null != noticeUserId">
+            notice_user_id,
+            </if>
+            create_time,
+            update_time
+        )
+        VALUES
+        (
+            #{noticeId},
+            <if test="null != noticeRoleId">
+            #{noticeRoleId},
+            </if>
+            <if test="null != noticeUserId">
+            #{noticeUserId},
+            </if>
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <update id="updateNoticeDistributeConfig" parameterType="com.xcky.model.entity.NoticeDistributeConfig">
+        UPDATE
+            notice_distribute_config
+        SET
+            notice_id = #{noticeId},
+            <if test="null != noticeRoleId">
+            notice_role_id = #{noticeRoleId},
+            </if>
+            <if test="null != noticeUserId">
+            notice_user_id = #{noticeUserId},
+            </if>
+            update_time = #{updateTime}
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="deleteNoticeDistributeConfigByMap" parameterType="java.util.Map">
+        DELETE FROM
+            notice_distribute_config
+        WHERE
+            1 = 1
+            <if test="null != id and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="null != noticeId and noticeId != ''">
+                AND notice_id = #{noticeId}
+            </if>
+            <if test="null != noticeRoleId and noticeRoleId != ''">
+                AND notice_role_id = #{noticeRoleId}
+            </if>
+            <if test="null != noticeUserId and noticeUserId != ''">
+                AND notice_user_id = #{noticeUserId}
+            </if>
+    </delete>
+    
+    <select id="selectNoticeDistributeConfigByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.NoticeDistributeConfig">
+        SELECT
+            id,
+            notice_id noticeId,
+            notice_role_id noticeRoleId,
+            notice_user_id noticeUserId,
+            create_time createTime,
+            update_time updateTime
+        FROM
+            notice_distribute_config
+        WHERE
+            1=1
+            <if test="null != id and id != ''">
+                AND id = #{id}
+            </if>
+    </select>
+
+    <select id="selectNoticeDistributeConfigRespByMap" parameterType="java.util.Map" resultType="com.xcky.model.resp.NoticeDistributeConfigResp">
+        SELECT
+            dc.id,
+            dc.notice_id noticeId,
+            dc.notice_role_id noticeRoleId,
+            dc.notice_user_id noticeUserId,
+            dc.create_time createTime,
+            dc.update_time updateTime,
+            user.username userName,
+            role.name roleName,
+            ni.message_template messageTemplate
+        FROM
+            notice_distribute_config dc
+            LEFT JOIN sys_role role ON dc.notice_role_id = role.id
+            LEFT JOIN sys_user user ON dc.notice_user_id = user.id
+            LEFT JOIN notice_info ni ON dc.notice_id = ni.id
+    </select>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.ParamStatusInfoMapper">
+    <select id="selectStatusByKey" resultType="com.xcky.model.entity.ParamStatusInfo">
+        SELECT
+            user_id userId,
+            type,
+            status,
+            create_time createTime,
+            update_time updateTime
+        FROM
+            param_status_info
+        WHERE
+            user_id = #{userId}
+            and type = #{type}
+        LIMIT 1
+    </select>
+    
+    <insert id="insertParamStatusInfo" parameterType="com.xcky.model.entity.ParamStatusInfo">
+        INSERT INTO
+            param_status_info
+        (
+            user_id,
+            type,
+            status,
+            create_time,
+            update_time
+        )
+        VALUES
+        (
+            #{userId},
+            #{type},
+            #{status},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <update id="updateParamStatusInfo" parameterType="com.xcky.model.entity.ParamStatusInfo">
+        UPDATE
+            param_status_info
+        SET
+            status = #{status},
+            update_time = #{updateTime}
+        WHERE
+            user_id = #{userId}
+            and type = #{type}
+    </update>
+</mapper>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.ExamPaperUserMapper">
+
+    <select id="selectPaperUserPageVoByMap" parameterType="java.util.Map" resultType="com.xcky.model.vo.ExamPaperUserPageVo">
+        SELECT
+            pu.id id,
+            pu.paper_id paperId,
+            pu.user_id userId,
+            pu.score score,
+            pu.create_time createTime,
+            pu.update_time updateTime,
+            pu.is_pass isPass,
+            pu.total_score totalScore,
+            pu.revision_time revisionTime,
+            pu.revision_user_id revisionUserId,
+            p.name paperName
+        FROM
+          exam_paper_user pu,
+          exam_paper p
+        WHERE
+          1=1
+          <if test="null != id">
+              AND pu.id = #{id}
+          </if>
+          <if test="null != paperId">
+              AND pu.paper_id = #{paperId}
+          </if>
+          <if test="null != userId">
+              AND pu.user_id = #{userId}
+          </if>
+          <if test="null != isPass and isPass != ''">
+              AND pu.is_pass = #{isPass}
+          </if>
+          <if test="null != revisionUserId and revisionUserId != ''">
+              AND pu.revision_user_id = #{revisionUserId}
+          </if>
+        ORDER BY
+          <if test="null != scoreOrderDesc">
+              pu.score DESC,
+          </if>
+          <if test="null != scoreOrderAsc">
+              pu.score ASC,
+          </if>
+          <if test="null != revisionTimeOrder">
+              pu.revision_time DESC,
+          </if>
+        pu.update_time desc
+    </select>
+    <select id="selectPaperId" resultType="java.lang.Long">
+        SELECT
+          paper_id
+        FROM
+          exam_paper_user
+        WHERE
+          id = #{id}
+          AND user_id = #{userId}
+    </select>
+
+
+    <select id="selectPaperUserById" resultType="com.xcky.model.entity.ExamPaperUser">
+        SELECT
+            id,
+            paper_id paperId,
+            user_id userId,
+            score,
+            create_time createTime,
+            update_time updateTime,
+            is_pass isPass,
+            total_score totalScore,
+            revision_time revisionTime,
+            revision_user_id revisionUserId
+        FROM
+          exam_paper_user
+        WHERE
+            id = #{id}
+    </select>
+
+    <insert id="insertExamPaperUser" parameterType="com.xcky.model.entity.ExamPaperUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO
+          exam_paper_user
+        (
+            paper_id,
+            user_id,
+            score,
+            create_time,
+            update_time,
+            is_pass,
+            total_score
+        )
+        VALUES
+        (
+            #{paperId},
+            #{userId},
+            0,
+            #{createTime},
+            #{updateTime},
+            0,
+            #{totalScore}
+        )
+    </insert>
+    
+    <update id="updateExamPaperUser" parameterType="com.xcky.model.entity.ExamPaperUser">
+        UPDATE
+          exam_paper_user
+        SET
+          <if test="null != revisionTime">
+              revision_time = #{revisionTime},
+          </if>
+          <if test="null != revisionUserId">
+              revision_user_id = #{revisionUserId},
+          </if>
+          score = #{score},
+          update_time = #{updateTime},
+          is_pass = #{isPass}
+        WHERE
+          paper_id = #{paperId}
+          AND user_id = #{userId}
+          AND id = #{id}
+    </update>
+</mapper>

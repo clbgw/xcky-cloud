@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.SysAclMapper">
+    <insert id="insertSysAcl" parameterType="com.xcky.model.entity.SysAcl">
+
+    </insert>
+
+    <update id="updateSysAcl" parameterType="com.xcky.model.entity.SysAcl">
+
+    </update>
+
+    <select id="selectSysAclByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.SysAcl">
+
+    </select>
+</mapper>

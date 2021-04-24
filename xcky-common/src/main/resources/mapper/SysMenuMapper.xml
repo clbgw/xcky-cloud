@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.SysMenuMapper">
+    <insert id="insertSysMenu" parameterType="com.xcky.model.entity.SysMenu" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+      INSERT INTO
+        sys_menu
+      (
+        pid,
+        appid,
+        sort_num,
+        name,
+        title,
+        icon,
+        jump,
+        spread
+      )
+      VALUES
+      (
+        #{pid},
+        #{appid},
+        #{sortNum},
+        #{name},
+        #{title},
+        #{icon},
+        #{jump},
+        #{spread}
+      )
+    </insert>
+
+    <update id="updateSysMenu" parameterType="com.xcky.model.entity.SysMenu">
+      UPDATE sys_menu
+      SET
+        pid = #{pid},
+        appid = #{appid},
+        sort_num = #{sortNum},
+        name = #{name},
+        title = #{title},
+        icon = #{icon},
+        jump = #{jump},
+        spread = #{spread}
+      WHERE
+        id = #{id}
+    </update>
+
+    <select id="selectSysMenuByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.SysMenu">
+      SELECT
+        id,
+        pid,
+        appid,
+        sort_num sortNum,
+        name,
+        title,
+        icon,
+        jump,
+        spread
+      FROM
+        sys_menu
+      WHERE
+        1=1
+        <if test="null != id">
+            AND id = #{id}
+        </if>
+      ORDER BY
+        sort_num DESC
+    </select>
+
+    <select id="selectSysMenuVoByMap" parameterType="java.util.Map" resultType="com.xcky.model.vo.SysMenuVo">
+      SELECT
+        id,
+        pid,
+        appid,
+        sort_num sortNum,
+        name,
+        title,
+        icon,
+        jump,
+        spread
+      FROM
+        sys_menu
+      WHERE
+        1=1
+        <if test="null != id">
+          AND id = #{id}
+        </if>
+        <if test="null != appid and appid != ''">
+          AND appid = #{appid}
+        </if>
+      ORDER BY
+        sort_num DESC
+    </select>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.CouponNoInfoMapper">
+    <select id="selectOneCanUseCouponNo" resultType="com.xcky.model.entity.CouponNoInfo">
+        SELECT
+            id,
+            coupon_id couponId,
+            coupon_no couponNo,
+            status status,
+            create_time createTime,
+            update_time updateTime
+        FROM
+            coupon_no_info
+        WHERE
+            coupon_id = #{couponId}
+            AND status = 'N'
+        limit 1
+    </select>
+
+    <update id="updateCouponNoStatus">
+        UPDATE
+            coupon_no_info
+        SET
+            status = #{status},
+            update_time = #{updateTime}
+        WHERE
+            id = #{id}
+            AND status = 'N'
+    </update>
+</mapper>

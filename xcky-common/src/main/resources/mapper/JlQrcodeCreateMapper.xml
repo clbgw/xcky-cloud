@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.JlQrcodeCreateMapper">
+    <insert id="insertJlQrcodeCreate" parameterType="com.xcky.model.entity.JlQrcodeCreate">
+        INSERT INTO
+            jl_qrcode_create
+        (
+            appid,
+            scene,
+            create_time,
+            update_time,
+            dest_path,
+            pic_path,
+            file_name
+        )
+        VALUES
+        (
+            #{appid},
+            #{scene},
+            #{createTime},
+            #{updateTime},
+            #{destPath},
+            #{picPath},
+            #{fileName}
+        )
+    </insert>
+
+    <update id="updateJlQrcodeCreate" parameterType="com.xcky.model.entity.JlQrcodeCreate">
+        UPDATE
+            jl_qrcode_create
+        SET
+            appid = #{appid},
+            scene = #{scene},
+            update_time = #{updateTime},
+            dest_path = #{destPath},
+            pic_path = #{picPath},
+            file_name = #{fileName}
+        WHERE
+            id = #{id}
+    </update>
+
+    <select id="selectJlQrcodeCreateByMap" resultType="com.xcky.model.entity.JlQrcodeCreate">
+        SELECT
+            id,
+            appid,
+            scene,
+            create_time createTime,
+            update_time updateTime,
+            dest_path destPath,
+            pic_path picPath,
+            file_name fileName
+        FROM
+            jl_qrcode_create
+        WHERE
+            1=1
+            <if test="id != null and id != ''">
+            AND id = #{id}
+            </if>
+            <if test="appid != null and appid != ''">
+            AND appid = #{appid}
+            </if>
+            <if test="scene != null and scene != ''">
+            AND scene = #{scene}
+            </if>
+    </select>
+</mapper>

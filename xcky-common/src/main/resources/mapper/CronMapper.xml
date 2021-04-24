@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.CronMapper">
+    <select id="selectCronEntityByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.CronEntity">
+        SELECT
+            id,
+            cron_name cronName,
+            cron,
+            status,
+            remark,
+            class_name className,
+            method_name methodName,
+            is_run isRun,
+            err_msg errMsg
+        FROM
+            cron_entity
+        WHERE
+            1=1
+            <if test="null != isRun and isRun != ''">
+                AND is_run = #{isRun}
+            </if>
+            <if test="null != className and className != ''">
+                AND class_name = #{className}
+            </if>
+            <if test="null != methodName and methodName != ''">
+                AND method_name = #{className}
+            </if>
+    </select>
+
+    <update id="updateCronStatus">
+        UPDATE
+          cron_entity
+        SET
+          <if test="null != errMsg and errMsg != ''">
+              err_msg = #{errMsg},
+          </if>
+          is_run = #{isRun}
+        WHERE
+          class_name = #{className}
+          AND method_name = #{methodName}
+    </update>
+</mapper>

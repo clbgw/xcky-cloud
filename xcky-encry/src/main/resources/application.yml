@@ -1,0 +1,153 @@
+server:
+  port: 8093
+
+spring:
+  application:
+    name: xcky-encry
+  profiles:
+    active: dev
+  jackson:
+      default-property-inclusion: NON_NULL
+  datasource:
+    #type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.110.33.117:9004/shop?useUnicode=true&characterEncoding=UTF8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 20
+      max-lifetime: 60000
+      connection-timeout: 5000
+  redis:
+    host: 127.0.0.1
+    password: clb789123fj.
+    port: 8000
+    jedis:
+      pool:
+        max-active: 4
+        min-idle: 0
+        max-wait: 1000ms
+        max-idle: 4
+mybatis-plus:
+  check-config-location: true
+  typeAliasesPackage: com.xcky.model.entity
+  config-location: classpath:mybatis-settings.xml
+  mapper-locations: classpath*:mapper/*.xml
+  global-config:
+    id-type: 0
+
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: false
+  support-methods-arguments: true
+
+order:
+  order: 0.01
+
+wx:
+  mini:
+    qrcode:
+      destPath: /opt/data/qrCodeData/
+      urlPrefix: https://clbgw.vip/qrcode/
+      page: pages/index/index
+
+---
+
+spring:
+  application:
+    name: xcky-encry
+  profiles: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.110.33.117:8848
+    sentinel:
+      transport:
+        dashboard: m.clbgw.vip:8080
+        port: 9999
+      eager: true
+unionpay:
+  certDir: C:/TEMP/unionPay
+  encryptTrackKeyModulus: 1
+  encryptTrackKeyExponent: 1
+  mchId: 777290058184213
+  version: 5.1.0
+  signMethod: '01'
+  ifValidateCnName: false
+  ifValidateRemoteCert: false
+  backUrl: http://3a7237949d.wicp.vip/backRcvResponse
+  frontUrl: http://localhost:8080/ACPSample_QRC/frontRcvResponse
+  encryptCertPath: C:/TEMP/unionPay/acp_test_enc.cer
+  middleCertPath: C:/TEMP/unionPay/acp_test_middle.cer
+  rootCertPath: C:/TEMP/unionPay/acp_test_root.cer
+
+  frontTransUrl: https://gateway.test.95516.com/gateway/api/frontTransReq.do
+  backTransUrl: https://gateway.test.95516.com/gateway/api/backTransReq.do
+  singleQueryUrl: https://gateway.test.95516.com/gateway/api/queryTrans.do
+  batchTransUrl: https://gateway.test.95516.com/gateway/api/batchTrans.do
+  fileTransUrl: https://filedownload.test.95516.com/
+  appTransUrl: https://gateway.test.95516.com/gateway/api/appTransReq.do
+  cardTransUrl: https://gateway.test.95516.com/gateway/api/cardTransReq.do
+  orderTransUrl: https://gateway.test.95516.com/gateway/api/order.do
+
+  jfFrontTransUrl: https://gateway.test.95516.com/jiaofei/api/frontTransReq.do
+  jfBackTransUrl: https://gateway.test.95516.com/jiaofei/api/backTransReq.do
+  jfSingleQueryUrl: https://gateway.test.95516.com/jiaofei/api/queryTrans.do
+  jfCardTransUrl: https://gateway.test.95516.com/jiaofei/api/cardTransReq.do
+  jfAppTransUrl: https://gateway.test.95516.com/jiaofei/api/appTransReq.do
+signcert:
+  pwd: '000000'
+  type: PKCS12
+  path: C:/TEMP/unionPay/acp_test_sign.pfx
+
+
+---
+
+spring:
+  application:
+    name: xcky-encry
+  profiles: prod
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.110.33.117:8848
+    sentinel:
+      transport:
+        dashboard: 172.16.16.222:8080
+        port: 9999
+      eager: true
+unionpay:
+  certDir: /opt/data/cert/unionPay
+  encryptTrackKeyModulus: 1
+  encryptTrackKeyExponent: 1
+  mchId: 777290058184213
+  version: 5.1.0
+  signMethod: '01'
+  ifValidateCnName: false
+  ifValidateRemoteCert: false
+  backUrl: http://3a7237949d.wicp.vip/backRcvResponse
+  frontUrl: http://localhost:8080/ACPSample_QRC/frontRcvResponse
+  encryptCertPath: /opt/data/cert/unionPay/acp_test_enc.cer
+  middleCertPath: /opt/data/cert/unionPay/acp_test_middle.cer
+  rootCertPath: /opt/data/cert/unionPay/acp_test_root.cer
+
+  frontTransUrl: https://gateway.test.95516.com/gateway/api/frontTransReq.do
+  backTransUrl: https://gateway.test.95516.com/gateway/api/backTransReq.do
+  singleQueryUrl: https://gateway.test.95516.com/gateway/api/queryTrans.do
+  batchTransUrl: https://gateway.test.95516.com/gateway/api/batchTrans.do
+  fileTransUrl: https://filedownload.test.95516.com/
+  appTransUrl: https://gateway.test.95516.com/gateway/api/appTransReq.do
+  cardTransUrl: https://gateway.test.95516.com/gateway/api/cardTransReq.do
+  orderTransUrl: https://gateway.test.95516.com/gateway/api/order.do
+
+  jfFrontTransUrl: https://gateway.test.95516.com/jiaofei/api/frontTransReq.do
+  jfBackTransUrl: https://gateway.test.95516.com/jiaofei/api/backTransReq.do
+  jfSingleQueryUrl: https://gateway.test.95516.com/jiaofei/api/queryTrans.do
+  jfCardTransUrl: https://gateway.test.95516.com/jiaofei/api/cardTransReq.do
+  jfAppTransUrl: https://gateway.test.95516.com/jiaofei/api/appTransReq.do
+signcert:
+  pwd: '000000'
+  type: PKCS12
+  path: /opt/data/cert/unionPay/acp_test_sign.pfx

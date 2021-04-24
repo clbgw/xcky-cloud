@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.NoticeDistributeInfoMapper">
+    <insert id="insertNoticeDistributeInfo" parameterType="com.xcky.model.entity.NoticeDistributeInfo">
+        INSERT INTO
+            notice_distribute_info
+        (
+            notice_id,
+            msg_content,
+            <if test="null != userId">
+            user_id,
+            </if>
+            <if test="null != roleId">
+            role_id,
+            </if>
+            status,
+            create_time,
+            update_time
+        )
+        VALUES
+        (
+            #{noticeId},
+            #{msgContent},
+            <if test="null != userId">
+            #{userId},
+            </if>
+            <if test="null != roleId">
+            #{roleId},
+            </if>
+            #{status},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <update id="updateNoticeDistributeInfo" parameterType="com.xcky.model.entity.NoticeDistributeInfo">
+        UPDATE
+            notice_distribute_info
+        SET
+            notice_id = #{noticeId},
+            msg_content = #{msgContent},
+            user_id = #{userId},
+            <if test="null != roleId">
+            role_id = #{roleId},
+            </if>
+            status = #{status},
+            update_time = #{updateTime}
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="updateNoticeDistributeInfoStatus" parameterType="com.xcky.model.req.NoticeDistributeInfoUpdateStatusReq">
+        UPDATE
+            notice_distribute_info
+        SET
+            status = #{status},
+            update_time = #{updateTime}
+        WHERE
+            id = #{id}
+            AND user_id = #{userId}
+    </update>
+    
+    <select id="selectNoticeDistributeInfosByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.NoticeDistributeInfo">
+        SELECT
+            id,
+            notice_id noticeId,
+            msg_content msgContent,
+            user_id userId,
+            role_id roleId,
+            status,
+            create_time createTime,
+            update_time updateTime
+        FROM
+            notice_distribute_info
+        WHERE
+            1=1
+            <if test="null != userId">
+                AND
+                (
+                    user_id = #{userId}
+                    <if test="null != roleIds and roleIds.size() > 0">
+                        OR role_id IN
+                        <foreach collection="roleIds" separator="," open="(" close=")" item="item">
+                            #{item}
+                        </foreach>
+                    </if>
+                )
+            </if>
+            <if test="null != status and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="null != msgContent and msgContent != ''">
+                AND msg_content LIKE CONCAT('%',#{msgContent},'%')
+            </if>
+            <if test="null != id and id != ''">
+                AND id = #{id}
+            </if>
+        ORDER BY
+            status
+    </select>
+    
+    <select id="selectDetailByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.NoticeDistributeInfo">
+        SELECT
+            id,
+            notice_id noticeId,
+            msg_content msgContent,
+            user_id userId,
+            role_id roleId,
+            status,
+            create_time createTime,
+            update_time updateTime
+        FROM
+            notice_distribute_info
+        WHERE
+            1=1
+            <if test="null != userId">
+                AND user_id = #{userId}
+            </if>
+            <if test="null != roleId">
+                AND role_id = #{roleId}
+            </if>
+            <if test="null != status and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="null != noticeId and noticeId != ''">
+                AND notice_id  = #{noticeId}
+            </if>
+    </select>
+    
+    <select id="selectNoticeDistributeInfoStatNumByMap" parameterType="java.util.Map" resultType="com.xcky.model.resp.NoticeDistributeInfoNumResp">
+        SELECT
+            status,
+            count(0) num
+        FROM
+            notice_distribute_info
+        WHERE
+            status != #{notStatus}
+            <if test="null != userId">
+                AND
+                (
+                user_id = #{userId}
+                <if test="null != roleIds and roleIds.size() > 0">
+                    OR role_id IN
+                    <foreach collection="roleIds" separator="," open="(" close=")" item="item">
+                        #{item}
+                    </foreach>
+                </if>
+                )
+            </if>
+        GROUP BY
+            status
+        ORDER BY
+            status
+    </select>
+</mapper>

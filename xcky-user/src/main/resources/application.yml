@@ -1,0 +1,142 @@
+server:
+  port: 8091
+project:
+  name: xcky-user
+
+spring:
+  application:
+    name: xcky-user
+  profiles:
+    active: dev
+
+---
+spring:
+  application:
+    name: xcky-user
+  profiles: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.110.33.117:8848
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8080
+        port: 9999
+        client-ip: 127.0.0.1
+      eager: true
+  jackson:
+      default-property-inclusion: NON_NULL
+  redis:
+    host: 127.0.0.1
+    password: clb789123fj.
+    port: 8000
+    jedis:
+      pool:
+        max-active: 4
+        min-idle: 0
+        max-wait: 1000ms
+        max-idle: 4
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.110.33.117:9004/shop?useUnicode=true&characterEncoding=UTF8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 2
+      max-lifetime: 60000
+      connection-timeout: 5000
+mybatis-plus:
+  check-config-location: true
+  typeAliasesPackage: com.xcky.model.entity
+  config-location: classpath:mybatis-settings.xml
+  mapper-locations: classpath*:mapper/*.xml
+  global-config:
+    id-type: 0
+
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: false
+  support-methods-arguments: true
+
+aliyun:
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: LTAI4GKz7Z1RRjzMYeHG3FCe
+    access-key-secret: QilitkUsr0PMJYEK8MAPFdI4cFOLVq
+    bucket-name: xd-test1
+
+csp:
+  sentinel:
+    dashboard:
+      server: 127.0.0.1:8080
+    app:
+      type: 1
+
+
+---
+spring:
+  application:
+    name: xcky-user
+  profiles: prod
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.16.16.222:8848
+    sentinel:
+      transport:
+        dashboard: 172.16.16.222:8080
+        port: 19999
+      eager: true
+  jackson:
+      default-property-inclusion: NON_NULL
+  redis:
+    host: 172.16.16.222
+    password: clb789123fj.
+    port: 8000
+    jedis:
+      pool:
+        max-active: 4
+        min-idle: 0
+        max-wait: 1000ms
+        max-idle: 4
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.16.16.222:9004/shop?useUnicode=true&characterEncoding=UTF8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 2
+      max-lifetime: 60000
+      connection-timeout: 5000
+mybatis-plus:
+  check-config-location: true
+  typeAliasesPackage: com.xcky.model.entity
+  config-location: classpath:mybatis-settings.xml
+  mapper-locations: classpath*:mapper/*.xml
+  global-config:
+    id-type: 0
+
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: false
+  support-methods-arguments: true
+
+aliyun:
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: LTAI4GKz7Z1RRjzMYeHG3FCe
+    access-key-secret: QilitkUsr0PMJYEK8MAPFdI4cFOLVq
+    bucket-name: xd-test1
+
+csp:
+  sentinel:
+    dashboard:
+      server: 172.16.16.222:8080
+    app:
+      type: 1

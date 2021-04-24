@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.JlSkillMapper">
+    <select id="selectJlSkillVoByJlId" resultType="com.xcky.model.vo.JlSkillVo">
+        SELECT
+            id,
+            name,
+            percent
+        FROM
+            jl_skill
+        WHERE
+            jl_id = #{jlId}
+        ORDER BY
+            sort_num 
+    </select>
+    
+    <insert id="insertSkillInfo" parameterType="com.xcky.model.req.JlSkillInfoUpdateReq" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO
+            jl_skill
+        (
+            name,
+            percent,
+            jl_id,
+            sort_num
+        )
+        VALUES
+        (
+            #{name},
+            #{percent},
+            #{jlId},
+            #{sortNum}
+        )
+    </insert>
+
+    <update id="updateSkillInfo" parameterType="com.xcky.model.req.JlSkillInfoUpdateReq">
+        UPDATE
+            jl_skill
+        SET
+            name = #{name},
+            percent = #{percent},
+            jl_id = #{jlId},
+            sort_num = #{sortNum}
+        WHERE
+            id = #{id}
+    </update>
+</mapper>

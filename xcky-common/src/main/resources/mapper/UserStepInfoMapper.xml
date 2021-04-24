@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.UserStepInfoMapper">
+    <select id="selectUserStepOne" resultType="com.xcky.model.entity.UserStepInfo">
+        SELECT
+          create_time createTime,
+          openid,
+          step,
+          step_date stepDate
+        FROM
+          user_step_info
+        WHERE
+          openid = #{openid}
+          AND step_date = #{stepDate}
+        LIMIT 1
+    </select>
+    <insert id="insertUserStepInfo" parameterType="com.xcky.model.entity.UserStepInfo">
+        INSERT INTO
+          user_step_info
+        (
+          create_time,
+          openid,
+          step,
+          step_date
+        )
+        VALUES
+        (
+          #{createTime},
+          #{openid},
+          #{step},
+          #{stepDate}
+        )
+    </insert>
+    <update id="updateUserStepInfo" parameterType="com.xcky.model.entity.UserStepInfo">
+        UPDATE
+          user_step_info
+        SET
+          create_time = #{createTime},
+          step = #{step}
+        WHERE
+          openid = #{openid}
+          AND step_date = #{stepDate}
+    </update>
+</mapper>

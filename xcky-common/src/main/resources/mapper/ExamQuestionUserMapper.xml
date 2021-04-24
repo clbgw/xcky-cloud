@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.ExamQuestionUserMapper">
+    <insert id="insertExamQuestionUser" parameterType="com.xcky.model.entity.ExamQuestionUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+      INSERT INTO
+        exam_question_user
+      (
+        <if test="null != starMark and starMark != ''">
+            star_mark,
+        </if>
+        <if test="null != isCollect and isCollect != ''">
+            is_collect,
+        </if>
+        <if test="null != isError and isError != ''">
+            is_error,
+        </if>
+        <if test="null != recentRightCount and recentRightCount != ''">
+            recent_right_count,
+        </if>
+        create_time,
+        update_time,
+        user_id,
+        question_id
+      )
+      VALUES
+      (
+        <if test="null != starMark and starMark != ''">
+            #{starMark},
+        </if>
+        <if test="null != isCollect and isCollect != ''">
+            #{isCollect},
+        </if>
+        <if test="null != isError and isError != ''">
+            #{isError},
+        </if>
+        <if test="null != recentRightCount and recentRightCount != ''">
+            #{recentRightCount},
+        </if>
+        #{createTime},
+        #{updateTime},
+        #{userId},
+        #{questionId}
+      )
+    </insert>
+    <update id="updateExamQuestionUser" parameterType="com.xcky.model.entity.ExamQuestionUser">
+      UPDATE
+        exam_question_user
+      SET
+          <if test="null != starMark and starMark != ''">
+              star_mark = #{starMark},
+          </if>
+          <if test="null != isCollect and isCollect != ''">
+            is_collect = #{isCollect},
+          </if>
+          <if test="null != isError and isError != ''">
+            is_error = #{isError},
+          </if>
+          <if test="null != recentRightCount and recentRightCount != ''">
+            recent_right_count = #{recentRightCount},
+          </if>
+          update_time = #{updateTime}
+      WHERE
+        user_id = #{userId}
+        AND question_id = #{questionId}
+    </update>
+
+    <select id="selectExamQuestionUserByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.ExamQuestionUser">
+        SELECT
+            id,
+            user_id userId,
+            question_id questionId,
+            create_time createTime,
+            update_time updateTime,
+            star_mark starMark,
+            is_collect isCollect,
+            is_error isError,
+            recent_right_count recentRightCount
+        FROM
+            exam_question_user
+        WHERE
+            1=1
+            <if test="null != userId">
+              AND user_id = #{userId}
+            </if>
+            <if test="null != questionId">
+              AND question_id = #{questionId}
+            </if>
+            <if test="null != starMark and starMark != ''">
+              AND star_mark = #{starMark}
+            </if>
+            <if test="null != isCollect and isCollect != ''">
+                AND is_collect = #{isCollect}
+            </if>
+            <if test="null != isError and isError != ''">
+                AND is_error = #{isError}
+            </if>
+    </select>
+</mapper>

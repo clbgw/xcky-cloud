@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.OrderDetailInfoMapper">
+    <insert id="insertOrderDetailInfo" parameterType="com.xcky.model.entity.OrderDetailInfo">
+        INSERT INTO
+            order_detail_info
+        (
+            goods_id,
+            goods_name,
+            goods_unit,
+            price,
+            coupon_price,
+            begin_date,
+            end_date,
+            goods_type,
+            order_no,
+            buy_num,
+            pay_price,
+            create_time,
+            update_time
+        )
+        VALUES
+        (
+            #{goodsId},
+            #{goodsName},
+            #{goodsUnit},
+            #{price},
+            #{couponPrice},
+            #{beginDate},
+            #{endDate},
+            #{goodsType},
+            #{orderNo},
+            #{buyNum},
+            #{payPrice},
+            #{createTime},
+            #{createTime}
+        )
+    </insert>
+
+    <select id="selectOrderDetailInfosByOrderNo" parameterType="java.lang.String" resultType="com.xcky.model.entity.OrderDetailInfo">
+        SELECT
+            goods_id goodsId,
+            goods_name goodsName,
+            goods_unit goodsUnit,
+            price price,
+            coupon_price couponPrice,
+            begin_date beginDate,
+            end_date endDate,
+            goods_type goodsType,
+            order_no orderNo,
+            buy_num buyNum,
+            pay_price payPrice
+        FROM
+            order_detail_info
+        WHERE
+            order_no = #{orderNo}
+    </select>
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.ShippingInfoMapper">
+	<select id="selectShippingInfoByKey" resultType="com.xcky.model.entity.ShippingInfo">
+		SELECT
+			id,
+			user_id userId,
+			address,
+            user_name userName,
+            tel_number telNumber,
+            national_code nationalCode,
+            postal_code postalCode,
+            province_name provinceName,
+            city_name cityName,
+            county_name countyName,
+            detail_info detailInfo,
+            create_time createTime,
+            update_time updateTime
+        FROM
+			shipping_info
+		WHERE
+			user_id = #{userId}
+			<if test="null != shippingId">
+                AND id = #{shippingId}
+            ORDER BY
+                update_time DESC
+            LIMIT 1
+            </if>
+	</select>
+
+    <insert id="insertShippingInfo" parameterType="com.xcky.model.entity.ShippingInfo">
+        INSERT INTO
+            shipping_info
+        (
+			user_id,
+			address,
+            user_name,
+            tel_number,
+            national_code,
+            postal_code,
+            province_name,
+            city_name,
+            county_name,
+            detail_info,
+            create_time,
+            update_time
+        )
+        VALUES
+        (
+            #{userId},
+            #{address},
+            #{userName},
+            #{telNumber},
+            #{nationalCode},
+            #{postalCode},
+            #{provinceName},
+            #{cityName},
+            #{countyName},
+            #{detailInfo},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <update id="updateShippingInfo" parameterType="com.xcky.model.entity.ShippingInfo">
+        UPDATE
+            shipping_info
+        SET
+            address = #{address},
+            user_name = #{userName},
+            tel_number = #{telNumber},
+            national_code = #{nationalCode},
+            postal_code = #{postalCode},
+            province_name = #{provinceName},
+            city_name = #{cityName},
+            county_name = #{countyName},
+            detail_info = #{detailInfo},
+            update_time = #{updateTime}
+        WHERE
+            id = #{id}
+            AND user_id = #{userId}
+    </update>
+    
+    <delete id="deleteShippingInfo" parameterType="com.xcky.model.req.ShippingInfoDeleteReq">
+        DELETE FROM
+            shipping_info
+        WHERE
+            id = #{shippingId}
+            AND user_id = #{userId}
+    </delete>
+</mapper>

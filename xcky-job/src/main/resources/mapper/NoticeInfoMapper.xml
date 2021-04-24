@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.NoticeInfoMapper">
+    <insert id="insertNoticeInfo" parameterType="com.xcky.model.entity.NoticeInfo">
+        INSERT INTO
+            notice_info
+        (
+            record_date,
+            create_time,
+            update_time,
+            notice_type_id,
+            message_template,
+            msg_level,
+            is_delete,
+            delete_time
+        )
+        VALUES
+        (
+            #{recordDate},
+            #{createTime},
+            #{updateTime},
+            #{noticeTypeId},
+            #{messageTemplate},
+            #{msgLevel},
+            #{isDelete},
+            #{deleteTime}
+        )
+    </insert>
+
+    <update id="updateNoticeInfo" parameterType="com.xcky.model.entity.NoticeInfo">
+        UPDATE
+            notice_info
+        SET
+            record_date = #{recordDate},
+            update_time = #{updateTime},
+            notice_type_id = #{noticeTypeId},
+            message_template = #{messageTemplate},
+            msg_level = #{msgLevel}
+        WHERE
+            id = #{id}
+    </update>
+    
+    <delete id="deleteNoticeInfo" parameterType="com.xcky.model.req.NoticeInfoDeleteReq">
+        UPDATE
+            notice_info
+        SET
+            is_delete = 'Y',
+            delete_time = #{deleteTime}
+        WHERE
+            1=1
+            AND ID IN
+            <foreach collection="ids" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+    </delete>
+    
+    <select id="selectNoticeInfosByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.NoticeInfo">
+        SELECT
+            id,
+            record_date recordDate,
+            create_time createTime,
+            update_time updateTime,
+            notice_type_id noticeTypeId,
+            message_template messageTemplate,
+            msg_level msgLevel,
+            is_delete isDelete
+        FROM
+            notice_info
+        WHERE
+            is_delete = 'N'
+            <if test="null != id">
+                AND id = #{id}
+            </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.GoodsInfoMapper">
+	<select id="selectGoodsInfoBySet" parameterType="java.util.Set" resultType="com.xcky.model.entity.GoodsInfo">
+		SELECT
+			id,
+			goods_name goodsName,
+			goods_unit goodsUnit,
+			price,
+			coupon_price couponPrice,
+			left_num leftNum,
+			peer_num peerNum,
+			goods_type goodsType,
+			begin_date beginDate,
+			end_date endDate,
+			goods_status goodsStatus,
+            main_img mainImg,
+            goods_desc goodsDesc
+		FROM
+			goods_info
+		WHERE
+			1=1
+			<if test="null != set and set.size() > 0">
+				AND ID IN
+				<foreach collection="set" item="item" open="(" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+	</select>
+
+	<update id="updateStore">
+		UPDATE
+			goods_info
+		SET
+			left_num = left_num - #{quantity}
+		WHERE
+			goods_status = '1'
+			AND begin_date &lt;= #{updateTime}
+			AND end_date &gt;= #{updateTime}
+			AND peer_num &gt;= #{quantity}
+			AND left_num &gt;= #{quantity}
+			AND id = #{goodsId}
+	</update>
+	
+	<select id="selectGoodsInfoVos" parameterType="java.util.Map" resultType="com.xcky.model.vo.GoodsInfoVo">
+		SELECT
+			id,
+			goods_name goodsName,
+			goods_unit goodsUnit,
+			price,
+			coupon_price couponPrice,
+			left_num leftNum,
+			peer_num peerNum,
+			goods_type goodsType,
+            begin_date beginDate,
+            end_date endDate,
+            goods_status goodsStatus,
+            main_img mainImg,
+            goods_desc goodsDesc
+        FROM
+			goods_info
+		WHERE
+		    goods_status = '1'
+		    AND begin_date &lt;= sysdate()
+			AND end_date &gt;= sysdate()
+			AND left_num &gt; 0
+	</select>
+    
+    <select id="selectGoodsInfoByReq" parameterType="com.xcky.model.req.GoodsDetailReq" resultType="com.xcky.model.vo.GoodsInfoVo">
+        SELECT
+            id,
+            goods_name goodsName,
+            goods_unit goodsUnit,
+            price,
+            coupon_price couponPrice,
+            left_num leftNum,
+            peer_num peerNum,
+            goods_type goodsType,
+            begin_date beginDate,
+            end_date endDate,
+            goods_status goodsStatus,
+            main_img mainImg,
+            goods_desc goodsDesc
+        FROM
+            goods_info
+        WHERE
+            id = #{goodsId}
+            AND goods_status = '1'
+    </select>
+
+	<select id="selectGoodsInfoVoById" resultType="com.xcky.model.vo.GoodsInfoVo">
+        SELECT
+            id,
+            goods_name goodsName,
+            goods_unit goodsUnit,
+            price,
+            coupon_price couponPrice,
+            left_num leftNum,
+            peer_num peerNum,
+            goods_type goodsType,
+            begin_date beginDate,
+            end_date endDate,
+            goods_status goodsStatus,
+            main_img mainImg,
+            goods_desc goodsDesc
+        FROM
+            goods_info
+        WHERE
+            id = #{goodsId}
+    </select>
+</mapper>

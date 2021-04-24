@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.ExamAnswerMapper">
+
+    <resultMap id="rightAnswerSubReqMap" type="com.xcky.model.req.ExamQuestionPaperAnswerSubReq">
+        <result column="questionId" property="questionId"></result>
+        <result column="score" property="score"></result>
+        <collection property="answerIds">
+            <result column="answerId"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectAnswerVoByMap" parameterType="java.util.Map" resultType="com.xcky.model.vo.ExamAnswerVo">
+        SELECT
+          id,
+          question_id questionId,
+          answer,
+          is_right isRight
+        FROM
+          exam_answer
+        WHERE
+          1=1
+          <if test="null != questionId">
+              AND question_id = #{questionId}
+          </if>
+          <if test="null != questionIds">
+              <foreach collection="questionIds" item="item" open="AND question_id IN (" close=")" separator=",">
+                  #{item}
+              </foreach>
+          </if>
+          <if test="null != status and status != ''">
+              AND status = #{status}
+          </if>
+          <if test="null != isRight and isRight != ''">
+              AND is_right = #{isRight}
+          </if>
+    </select>
+
+    <select id="selectAnswerIdsByMap" parameterType="java.util.Map" resultType="java.lang.Long">
+        SELECT
+          answer
+        FROM
+          exam_answer
+        WHERE
+          question_id = #{questionId}
+          AND status = #{status}
+          <if test="null !- isRight and isRight != ''">
+              AND is_right = #{isRight}
+          </if>
+        GROUP BY
+          answer
+    </select>
+
+    <select id="selectRightAnswersByPaperId" resultMap="rightAnswerSubReqMap">
+        SELECT
+            a.question_id questionId,
+            a.id answerId,
+            q.score score
+        FROM
+            exam_paper_question pq,
+            exam_answer a,
+            exam_question q
+        WHERE
+            pq.paper_id = #{paperId}
+            AND pq.question_id = q.id
+            AND q.id = a.question_id
+            AND q.`status` = '1'
+            AND a.`status` = '1'
+            AND a.is_right = '1'
+    </select>
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.UserJlRelaMapper">
+    <insert id="insertUserJlRela" parameterType="com.xcky.model.entity.UserJlRela" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+      INSERT INTO
+        user_jl_rela
+      (
+        openid,
+        user_id,
+        jl_id,
+        create_time,
+        update_time,
+        status
+      )
+      VALUES
+      (
+        #{openid},
+        #{userId},
+        #{jlId},
+        #{createTime},
+        #{updateTime},
+        #{status}
+      )
+    </insert>
+
+    <update id="updateUserJlRela" parameterType="com.xcky.model.entity.UserJlRela">
+        UPDATE
+          user_jl_rela
+        SET
+          openid = #{openid},
+          user_id = #{userId},
+          jl_id = #{jlId},
+          update_time = #{updateTime},
+          status = #{status}
+        WHERE
+          id = #{id}
+    </update>
+    
+    <select id="selectUserJlRelaVoByMap" resultType="com.xcky.model.vo.UserJlRelaVo" parameterType="java.util.Map">
+        SELECT
+            id,
+            openid,
+            user_id userId,
+            jl_id jlId,
+            create_time createTime,
+            update_time updateTime,
+            status
+        FROM
+            user_jl_rela
+        WHERE
+            1 = 1
+            <if test="ll != openid and openid != ''">
+                AND openid = #{openid}
+            </if>
+            <if test="null != userId and userId != ''">
+                AND user_id = #{userId}
+            </if>
+            <if test="null != status and status != ''">
+                AND status = #{status}
+            </if>
+    </select>
+</mapper>

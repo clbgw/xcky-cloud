@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.SourceLogMapper">
+    <insert id="insertSourceLog" parameterType="com.xcky.model.entity.SourceLog">
+        INSERT IGNORE INTO
+          source_log
+        (
+            appid,
+            page_id,
+            <if test="null != openid and openid != ''">
+                openid,
+            </if>
+            <if test="null != unionId and unionId != ''">
+                union_id,
+            </if>
+            <if test="null != userId">
+                user_id,
+            </if>
+            log_type,
+            `level`,
+            msg,
+            create_time,
+            record_date
+        )
+        VALUES
+        (
+            #{appid},
+            #{pageId},
+            <if test="null != openid and openid != ''">
+                #{openid},
+            </if>
+            <if test="null != unionId and unionId != ''">
+                #{unionId},
+            </if>
+            <if test="null != userId">
+                #{userId},
+            </if>
+            #{logType},
+            #{level},
+            #{msg},
+            #{createTime},
+            #{recordDate}
+        )
+    </insert>
+</mapper>

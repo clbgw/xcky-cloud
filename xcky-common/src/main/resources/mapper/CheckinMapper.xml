@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.CheckinMapper">
+    <insert id="insertCheckin" parameterType="com.xcky.model.entity.Checkin">
+        INSERT INTO
+            checkin_a
+        (
+            <if test="null != subTime">
+                sub_time,
+            </if>
+            <if test="null != checkinDate and checkinDate != checkinDate">
+                checkin_date,
+            </if>
+            <if test="null != checkinStatus and checkinStatus !- ''">
+                checkin_status,
+            </if>
+            <if test="null != sendStatus and sendStatus != ''">
+                send_status,
+            </if>
+            <if test="null != sendTime">
+                send_time,
+            </if>
+            <if test="null != checkinTime">
+                checkin_time,
+            </if>
+            <if test="null != sendErrCode and sendErrCode != ''">
+                send_err_code,
+            </if>
+            <if test="null != updateTime">
+                update_time,
+            </if>
+            appid,
+            openid
+        )
+        VALUES
+        (
+            <if test="null != subTime">
+                #{subTime},
+            </if>
+            <if test="null != checkinDate and checkinDate != checkinDate">
+                #{checkinDate},
+            </if>
+            <if test="null != checkinStatus and checkinStatus !- ''">
+                #{checkinStatus},
+            </if>
+            <if test="null != sendStatus and sendStatus != ''">
+                #{sendStatus},
+            </if>
+            <if test="null != sendTime">
+                #{sendTime},
+            </if>
+            <if test="null != checkinTime">
+                #{checkinTime},
+            </if>
+            <if test="null != sendErrCode and sendErrCode != ''">
+                #{sendErrCode},
+            </if>
+            <if test="null != updateTime">
+                #{updateTime},
+            </if>
+            #{appid},
+            #{openid}
+        )
+    </insert>
+
+    <update id="updateCheckin" parameterType="com.xcky.model.entity.Checkin">
+        UPDATE
+            checkin_a
+        SET
+            <if test="null != subTime">
+                sub_time = #{subTime},
+            </if>
+            <if test="null != checkinStatus and checkinStatus != ''">
+                checkin_status = #{checkinStatus},
+            </if>
+            <if test="null != sendStatus and sendStatus != ''">
+                send_status = #{sendStatus},
+            </if>
+            <if test="null != sendTime">
+                send_time = #{sendTime},
+            </if>
+            <if test="null != checkinTime">
+                checkin_time = #{checkinTime},
+            </if>
+            <if test="null != sendErrCode and sendErrCode != ''">
+                send_err_code = #{sendErrCode},
+            </if>
+            update_time = #{updateTime}
+        WHERE
+            1=1
+            <if test="null != id">
+                AND id = #{id}
+            </if>
+            <if test="null != appid and appid != appid">
+                AND appid = #{appid}
+            </if>
+            <if test="null != openid and openid != ''">
+                AND openid = #{openid}
+            </if>
+            <if test="null != checkinDate and checkinDate != ''">
+                AND checkin_date = #{checkinDate}
+            </if>
+    </update>
+
+    <select id="selectCheckinByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.Checkin">
+        SELECT
+            id,
+            appid,
+            openid,
+            sub_time,
+            checkin_date,
+            checkin_status,
+            send_status,
+            send_time,
+            checkin_time,
+            send_err_code,
+            update_time
+        FROM
+            checkin_a
+        WHERE
+            1=1
+            <if test="null != id and id != ''">
+                AND id = id
+            </if>
+            <if test="null != appid and appid != ''">
+                AND appid = #{appid}
+            </if>
+            <if test="null != openid and openid != ''">
+                AND openid = #{openid}
+            </if>
+            <if test="null != checkinDate and checkinDate != ''">
+                AND checkin_date = #{checkinDate}
+            </if>
+            <if test="null != checkinStatus and checkinStatus != ''">
+                AND checkin_status = #{checkinStatus}
+            </if>
+            <if test="null != sendStatus and sendStatus != ''">
+                AND send_status = #{sendStatus}
+            </if>
+    </select>
+
+    <select id="selectCheckinNum" resultType="java.lang.Integer">
+        SELECT
+          COUNT(1)
+        FROM
+          checkin_a
+        WHERE
+          appid = #{appid}
+          AND openid = #{openid}
+    </select>
+</mapper>

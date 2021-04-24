@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.ParamInfoMapper">
+    <select id="selectParamInfosByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.ParamInfo">
+        SELECT
+            class_name className,
+            class_code classCode,
+            code_value codeValue,
+            code_desc codeDesc,
+            status,
+            create_time createTime,
+            update_time updateTime,
+            sort_num sortNum
+        FROM
+            param_info
+        WHERE
+            1=1
+            <if test="null != classCode and classCode != ''">
+                AND class_code = #{classCode}
+            </if>
+            <if test="null != codeValue and codeValue != ''">
+                AND code_value = #{codeValue}
+            </if>
+            <if test="null != status and status != ''">
+                AND status = #{status}
+            </if>
+        ORDER BY
+            sort_num
+    </select>
+</mapper>

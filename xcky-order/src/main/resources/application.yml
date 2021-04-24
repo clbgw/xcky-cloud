@@ -1,0 +1,145 @@
+server:
+  port: 8092
+project:
+  name: xcky-order
+
+spring:
+  application:
+    name: xcky-order
+  profiles:
+    active: dev
+
+
+---
+
+spring:
+  application:
+    name: xcky-order
+  profiles: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.110.33.117:8848
+    sentinel:
+      transport:
+        dashboard: m.clbgw.vip:8080
+        port: 9999
+      eager: true
+  jackson:
+      default-property-inclusion: NON_NULL
+  redis:
+    host: 127.0.0.1
+    password: clb789123fj.
+    port: 8000
+    jedis:
+      pool:
+        max-active: 4
+        min-idle: 0
+        max-wait: 1000ms
+        max-idle: 4
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.110.33.117:9004/shop?useUnicode=true&characterEncoding=UTF8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 20
+      max-lifetime: 60000
+      connection-timeout: 5000
+mybatis-plus:
+  check-config-location: true
+  typeAliasesPackage: com.xcky.model.entity
+  config-location: classpath:mybatis-settings.xml
+  mapper-locations: classpath*:mapper/*.xml
+  global-config:
+    id-type: 0
+
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: false
+  support-methods-arguments: true
+
+order:
+  integralMulti: 0.01
+
+#ribbon:
+#  eager-load:
+#    enabled: true
+#    clients:
+#    - http://m.clbgw.vip:8091
+#  restclient:
+#    enabled: true
+#xcky-user:
+#  ribbon:
+#    listOfServers: http://m.clbgw.vip:8091
+
+---
+
+spring:
+  application:
+    name: xcky-order
+  profiles: prod
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.16.16.222:8848
+    sentinel:
+      transport:
+        dashboard: 172.16.16.222:8080
+        port: 9999
+      eager: true
+  jackson:
+      default-property-inclusion: NON_NULL
+  redis:
+    host: 127.0.0.1
+    password: clb789123fj.
+    port: 8000
+    jedis:
+      pool:
+        max-active: 4
+        min-idle: 0
+        max-wait: 1000ms
+        max-idle: 4
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.16.16.222:9004/shop?useUnicode=true&characterEncoding=UTF8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 20
+      max-lifetime: 60000
+      connection-timeout: 5000
+mybatis-plus:
+  check-config-location: true
+  typeAliasesPackage: com.xcky.model.entity
+  config-location: classpath:mybatis-settings.xml
+  mapper-locations: classpath*:mapper/*.xml
+  global-config:
+    id-type: 0
+
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: false
+  support-methods-arguments: true
+
+order:
+  integralMulti: 0.01
+
+#ribbon:
+#  eager-load:
+#    enabled: true
+#    clients:
+#    - http://m.clbgw.vip:8091
+#  restclient:
+#    enabled: true
+#xcky-user:
+#  ribbon:
+#    listOfServers: http://172.16.16.222:8091

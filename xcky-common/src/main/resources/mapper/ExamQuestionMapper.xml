@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.ExamQuestionMapper">
+    <resultMap id="examQuestionVoMap" type="com.xcky.model.vo.ExamQuestionVo">
+        <result column="id" property="id"></result>
+        <result column="type" property="type"></result>
+        <result column="title" property="title"></result>
+        <result column="answerType" property="answerType"></result>
+        <result column="difficultyLevel" property="difficultyLevel"></result>
+        <result column="score" property="score"></result>
+
+        <collection property="answers" ofType="com.xcky.model.vo.ExamAnswerVo">
+            <result column="answerId" property="id"></result>
+            <result column="questionId" property="questionId"></result>
+            <result column="answer" property="answer"></result>
+            <result column="isRight" property="isRight"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectQuestionVoByMap" parameterType="java.util.Map" resultMap="examQuestionVoMap">
+        SELECT
+            q.id id,
+            q.`type` type,
+            q.title title,
+            q.answer_type answerType,
+            q.difficulty_level difficultyLevel,
+            q.score score,
+
+            <if test="null != hasAnswer">
+                a.is_right  isRight,
+            </if>
+            a.answer answer,
+            a.id answerId,
+            a.question_id questionId
+        FROM
+            exam_question q ,
+            exam_answer a
+        WHERE
+          q.id = a.question_id
+          <if test="null != questionId">
+              AND q.id = #{questionId}
+          </if>
+          <if test="null != status and status != ''">
+              AND q.status = #{status}
+              AND a.status = #{status}
+          </if>
+    </select>
+
+    <select id="selectQuestionDescById" resultType="java.lang.String">
+        SELECT
+           `desc`
+        FROM
+          exam_question
+        WHERE
+          ID = #{questionId}
+    </select>
+    <select id="selectQUestionIdsByMap" parameterType="java.util.Map" resultType="java.lang.Long">
+      SELECT
+        distinct question_id
+      FROM
+        exam_question_user
+      WHERE
+        user_id = #{userId}
+        <if test="null != starMark and starMark != ''">
+            AND star_mark = #{starMark}
+        </if>
+        <if test="null != isCollect and isCollect != ''">
+            AND is_collect = #{isCollect}
+        </if>
+        <if test="null != isError and isError != ''">
+            AND is_error = #{isError}
+        </if>
+    </select>
+</mapper>

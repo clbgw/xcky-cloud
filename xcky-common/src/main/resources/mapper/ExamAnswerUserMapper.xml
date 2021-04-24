@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.ExamAnswerUserMapper">
+
+    <insert id="insertAnswerUser" parameterType="com.xcky.model.entity.ExamAnswerUser">
+        INSERT INTO
+          exam_answer_user
+        (
+          <if test="null != paperId">
+              paper_id,
+          </if>
+          user_id,
+          question_id,
+          create_time,
+          submit_answer,
+          is_right
+        )
+        VALUES
+        (
+          <if test="null != paperId">
+            #{paperId},
+          </if>
+          #{userId},
+          #{questionId},
+          #{createTime},
+          #{submitAnswer},
+          #{isRight}
+        )
+    </insert>
+</mapper>

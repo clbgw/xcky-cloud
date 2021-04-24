@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.UserCouponRelaMapper">
+    <update id="updateUserCouponStatus" parameterType="com.xcky.model.entity.UserCouponRela">
+        UPDATE
+            user_coupon_rela
+        set
+            use_status = #{useStatus},
+            update_time = #{updateTime}
+        WHERE
+            id = #{id}
+            AND use_status = '1'
+    </update>
+
+    <insert id="insertUserCouponRela" parameterType="com.xcky.model.entity.UserCouponRela">
+        INSERT INTO
+            user_coupon_rela
+        (
+            use_status,
+            coupon_id,
+            user_id,
+            coupon_no,
+            update_time,
+            create_time
+        )
+        VALUES
+        (
+            #{useStatus},
+            #{couponId},
+            #{userId},
+            #{couponNo},
+            #{updateTime},
+            #{createTime}
+        )
+    </insert>
+
+    <select id="countNoUseCouponByReq" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        FROM
+            user_coupon_rela
+        WHERE
+            coupon_id = #{couponId}
+            AND user_id = #{userId}
+            AND use_status = '1'
+    </select>
+</mapper>

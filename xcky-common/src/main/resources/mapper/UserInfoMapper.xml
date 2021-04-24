@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.UserInfoMapper">
+	<select id="selectUserIdByKey" parameterType="java.lang.Long" resultType="java.lang.Long">
+		SELECT
+			id
+		FROM
+			user_info
+		WHERE
+			id = #{id}
+		LIMIT 1
+	</select>
+    
+    <select id="selectUserIntegeral" resultType="java.math.BigDecimal">
+        SELECT
+            integral - #{integral} 
+        FROM
+            user_info
+        WHERE
+            id = #{userId}
+        LIMIT 1
+    </select>
+    
+    <update id="updateUserIntegral">
+        UPDATE
+            user_info
+        SET
+            integral = integral - #{integral}
+        WHERE
+            id = #{userId}
+    </update>
+
+    <insert id="insertUserInfo" parameterType="com.xcky.model.entity.UserInfo">
+        INSERT INTO
+            user_info
+        (
+            <if test="null != unionId and unionId != ''">
+                union_id,
+            </if>
+            <if test="null != sessionKey and sessionKey != ''">
+                session_key,
+            </if>
+            <if test="null != appId and appId != ''">
+                appid,
+            </if>
+            openid,
+            create_time,
+            update_time,
+            is_admin
+        )
+        VALUES
+        (
+            <if test="null != unionId and unionId != ''">
+            #{unionId},
+            </if>
+            <if test="null != sessionKey and sessionKey != ''">
+            #{sessionKey},
+            </if>
+            <if test="null != appId and appId != ''">
+            #{appId},
+            </if>
+            #{openid},
+            #{createTime},
+            #{updateTime},
+            '0'
+        )
+    </insert>
+
+    <update id="updateUserInfo" parameterType="com.xcky.model.entity.UserInfo">
+        UPDATE
+            user_info
+        SET
+            <if test="null != appId and appId != ''">
+                appid = #{appId},
+            </if>
+            <if test="null != openid and openid != ''">
+                openid = #{openid},
+            </if>
+            <if test="null != unionId and unionId != ''">
+                union_id = #{unionId},
+            </if>
+            <if test="null != sessionKey and sessionKey != ''">
+                session_key = #{sessionKey},
+            </if>
+            update_time = #{updateTime}
+        WHERE
+            id = #{id}
+    </update>
+
+    <select id="selectCountUserByKey" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        SELECT
+            COUNT(0)
+        FROM
+            user_info
+        WHERE
+            id = #{userId}
+    </select>
+
+    <select id="selectUserInfoByOpenid" parameterType="java.lang.String" resultType="com.xcky.model.entity.UserInfo">
+        SELECT
+            id,
+            appid appId,
+            openid,
+            union_id unionId,
+            avatar_url avatarUrl,
+            country,
+            province,
+            city,
+            gender,
+            language,
+            nick_name nick_name,
+            session_key sessionKey
+        FROM
+            user_info
+        WHERE
+            openid = #{openid}
+    </select>
+
+    <update id="updateUserInfoBySubInfoReq" parameterType="com.xcky.model.req.UserUpdateBaseSubInfoReq">
+        UPDATE
+            user_info
+        SET
+            <if test="null != avatarUrl and avatarUrl != ''">
+                avatar_url = #{avatarUrl},
+            </if>
+            <if test="null != country and country != ''">
+                country= #{country},
+            </if>
+            <if test="null != province and province != ''">
+                province = #{province},
+            </if>
+            <if test="null != city and city != ''">
+                city = #{city},
+            </if>
+            <if test="null != gender and gender != ''">
+                gender = #{gender},
+            </if>
+            <if test="null != language and language != ''">
+                language = #{language},
+            </if>
+            <if test="null != nickName and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            update_time = #{updateTime}
+        WHERE
+            id = #{userId}
+            AND openid = #{openid}
+    </update>
+
+    <select id="selectIsAdminByOpenid" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+          is_admin
+        FROM
+          user_info
+        WHERE
+          openid = #{openid}
+        LIMIT 1
+    </select>
+
+    <select id="selectUserStatByAppid" resultType="com.xcky.model.vo.UserStatDateNumVo">
+        SELECT
+            DATE_FORMAT( create_time, '%Y-%m-%d' ) AS dateStr,
+            count( 1 ) num
+        FROM
+            user_info
+        WHERE
+            appid = #{appid}
+        GROUP BY
+            DATE_FORMAT( create_time, '%Y-%m-%d' )
+        ORDER BY
+            DATE_FORMAT( create_time, '%Y-%m-%d' ) DESC
+        LIMIT 60
+    </select>
+    
+    <select id="selectUserInfoByMap" parameterType="java.util.Map" resultType="com.xcky.model.vo.UserInfoVo">
+        SELECT
+            id,
+            appid,
+            openid,
+            union_id unionId,
+            session_key sessionKey,
+            country,
+            province,
+            city,
+            gender,
+            `language`,
+            nick_name nickName,
+            avatar_url avatar,
+            integral,
+            create_time createTime,
+            update_time updateTime,
+            is_admin isAdmin
+        FROM
+            user_info
+        WHERE
+          1=1
+          <if test="null != id">
+              AND id = #{id}
+          </if>
+          <if test="null != appid and appid != ''">
+              AND appid = #{appid}
+          </if>
+    </select>
+</mapper>

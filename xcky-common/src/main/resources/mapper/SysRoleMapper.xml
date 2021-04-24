@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.SysRoleMapper">
+    <insert id="insertSysRole" parameterType="com.xcky.model.entity.SysRole">
+
+    </insert>
+
+    <update id="updateSysRole" parameterType="com.xcky.model.entity.SysRole">
+
+    </update>
+
+    <select id="selectSysRoleByMap" parameterType="java.util.Map" resultType="com.xcky.model.entity.SysRole">
+
+    </select>
+</mapper>

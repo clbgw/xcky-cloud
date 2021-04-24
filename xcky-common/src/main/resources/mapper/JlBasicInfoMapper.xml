@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.JlBasicInfoMapper">
+    <select id="selectJlBasicInfoVoByKey" resultType="com.xcky.model.vo.JlBasicInfoVo">
+        SELECT
+            id,
+            width,
+            height,
+            photo,
+            name,
+            tel,
+            job,
+            exp,
+            sex,
+            age,
+            email,
+            address,
+            introduction introduction
+        FROM
+            jl_basic_info
+        WHERE
+            id = #{jlId}
+    </select>
+    
+    <insert id="insertBasicInfo" parameterType="com.xcky.model.req.JlBasicInfoUpdateReq"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="jlId">
+        INSERT INTO
+            jl_basic_info
+        (
+            photo,
+            name,
+            tel,
+            job,
+            exp,
+            sex,
+            age,
+            email,
+            address,
+            introduction,
+            width,
+            height
+        )
+        VALUES
+        (
+            #{photo},
+            #{name},
+            #{tel},
+            #{job},
+            #{exp},
+            #{sex},
+            #{age},
+            #{email},
+            #{address},
+            #{introduction},
+             0,
+             0
+        )
+    </insert>
+    
+    <update id="updateBasicInfo" parameterType="com.xcky.model.req.JlBasicInfoUpdateReq">
+        UPDATE
+            jl_basic_info
+        SET
+            photo = #{photo},
+            name = #{name},
+            tel = #{tel},
+            job = #{job},
+            exp = #{exp},
+            sex = #{sex},
+            age = #{age},
+            email = #{email},
+            address = #{address},
+            introduction = #{introduction}
+        WHERE
+            id = #{jlId}
+    </update>
+</mapper>

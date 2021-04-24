@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcky.mapper.ExamPaperMapper">
+    <select id="selectPaperVosByMap" resultType="com.xcky.model.entity.ExamPaper" parameterType="java.util.Map">
+        SELECT
+          id,
+          name,
+          begin_time beginTime,
+          end_time endTime,
+          status,
+          duration_minus durationMinus,
+          total_score totalScore,
+          pass_score passScore,
+          paper_desc paperDesc,
+          create_time createTime,
+          update_time updateTime
+        FROM
+          exam_paper
+        WHERE
+          1=1
+          <if test="null != id">
+              AND id = #{id}
+          </if>
+          <if test="null != name and name != ''">
+              AND name LIKE CONCAT('%',#{name},'%')
+          </if>
+          <if test="null != beginTime">
+              AND begin_time &lt;= #{beginTime}
+          </if>
+          <if test="null != endTime">
+              AND end_time &gt;= #{endTime}
+          </if>
+          <if test="null != status and status != ''">
+              AND status = #{status}
+          </if>
+          <if test="null != paperDesc and paperDesc != ''">
+             AND paper_desc LIKE CONCAT('%',#{paperDesc},'%')
+          </if>
+          <if test="null != totalScore">
+              AND total_score = #{totalScore}
+          </if>
+          <if test="null != passScore">
+              AND pass_score = #{passScore}
+          </if>
+          <if test="null != durationMinus">
+              AND duration_minus = #{durationMinus}
+          </if>
+        ORDER BY
+          update_time DESC
+    </select>
+    
+    <select id="selectPaperPageVosByMap" parameterType="java.util.Map" resultType="com.xcky.model.vo.ExamPaperPageVo">
+        SELECT
+            id,
+            name,
+            begin_time beginTime,
+            end_time endTime,
+            status,
+            duration_minus durationMinus,
+            total_score totalScore,
+            pass_score passScore,
+            paper_desc paperDesc
+        FROM
+          exam_paper
+        WHERE
+            1=1
+            <if test="null != id">
+                AND id = #{id}
+            </if>
+            <if test="null != name and name != ''">
+                AND name LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="null != beginTime">
+                AND begin_time &lt;= #{beginTime}
+            </if>
+            <if test="null != endTime">
+                AND end_time &gt;= #{endTime}
+            </if>
+            <if test="null != status and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="null != paperDesc and paperDesc != ''">
+                AND paper_desc LIKE CONCAT('%',#{paperDesc},'%')
+            </if>
+            <if test="null != totalScore">
+                AND total_score = #{totalScore}
+            </if>
+            <if test="null != passScore">
+                AND pass_score = #{passScore}
+            </if>
+            <if test="null != durationMinus">
+                AND duration_minus = #{durationMinus}
+            </if>
+        ORDER BY
+          update_time DESC
+    </select>
+
+    <select id="selectPaperByPaperId" resultType="com.xcky.model.entity.ExamPaper">
+        SELECT
+            id,
+            name,
+            begin_time beginTime,
+            end_time endTime,
+            status,
+            duration_minus durationMinus,
+            total_score totalScore,
+            pass_score passScore,
+            paper_desc paperDesc,
+            create_time createTime,
+            update_time updateTime
+        FROM
+          exam_paper
+        WHERE
+          id = #{paperId}
+    </select>
+</mapper>
