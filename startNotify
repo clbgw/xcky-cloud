@@ -1,0 +1,7 @@
+#svn update
+#mvn clean 
+#mvn package
+cd xcky-notify/target
+nohup /opt/Java/jdk-11.0.8/bin/java -server -Xmx128M -Xms128M -Dfastjson.parser.safeMode=true -jar xcky-notify-1.0.jar >/logs/notify.log &
+tail -f /logs/notify.log
+

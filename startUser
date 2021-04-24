@@ -1,0 +1,7 @@
+#svn update
+#mvn clean 
+#mvn package
+cd xcky-user/target
+nohup /opt/Java/jdk-11.0.8/bin/java -server -Xmx128M -Xms128M -Dfastjson.parser.safeMode=true -jar xcky-user-1.0.jar --spring.profiles.active=prod >/logs/user.log &
+tail -f /logs/user.log
+

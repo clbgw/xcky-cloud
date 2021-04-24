@@ -1,0 +1,7 @@
+#svn update
+#mvn clean 
+#mvn package
+cd xcky-job/target
+nohup /opt/Java/jdk-11.0.8/bin/java -server -Xmx128M -Xms128M -Dfastjson.parser.safeMode=true -jar xcky-job-1.0.jar >/logs/job.log &
+tail -f /logs/job.log
+
